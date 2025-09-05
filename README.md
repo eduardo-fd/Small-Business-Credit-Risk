@@ -79,7 +79,7 @@ A continuación se definen 2 vias para continuar en la siguiente fase:
 
 2. **Paso a paso**: *cargar datos sucios*, ejecutar *esquema inicial* y limpieza de datos (documentado en **Process**)
     - sba_loans_schema.sql
-    - sba_loans_raw.csv (o descargar desde la web)
+    - sba_loans_raw.csv (no incluido por tamaño) disponible en SBA Open Data Portal
     - cleaning_data.sql (ejecutar queries de limpieza)
     - views.sql (ejecuta queries de creación de vistas)
 
