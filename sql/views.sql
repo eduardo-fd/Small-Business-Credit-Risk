@@ -69,9 +69,16 @@ SELECT	approval_ym, processing_bucket, approved_cnt, default_cnt,
 		chargeoff_sum, avg_amount
 FROM aggregation;
 
--- Creamos el dataset para el modelado de predicción de impago
+-- Creamos el dataset para el modelo de predicción de impago
 CREATE VIEW modeling_loans AS
 SELECT loan_id, default_flag, gross_approval, term_in_months, naics_code_2, project_state, size_bucket, processing_bucket
 FROM fact_loans;
 
-SELECT * FROM modeling_loans; -- Una vez creado lo exportamos para el EDA y modelado en python
+SELECT * FROM modeling_loans; -- Una vez creado lo exportamos en formato CSV para el EDA y modelado en python
+
+-- Exportamos también las vistas creadas
+SELECT * FROM agg_m;
+SELECT * FROM agg_m_state;
+SELECT * FROM agg_m_naics;
+SELECT * FROM agg_m_size;
+SELECT * FROM agg_m_process;
