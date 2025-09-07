@@ -40,7 +40,7 @@ sql/                 # Scripts SQL: schema, cleaning, views, exploratory analysi
 notebooks/           # Python notebooks with the simple logit model
 dashboard/           # Dashboard Power BI (.pbix)
 outputs/             # CSV: deciles, PD scores and aggregates
-docs/                # Scope of Work, dashboard screenshots, and dictionary
+docs/                # Scope of Work, dashboard screenshots, dictionary, README.md (Spanish)
 README.md            # Main project documentation
 requirements.txt     # Python dependencies
 LICENSE              # MIT license
