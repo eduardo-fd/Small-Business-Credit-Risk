@@ -34,15 +34,17 @@ Con base en ese ranking (deciles), definiremos un umbral de acción (cut-off) pa
 ---
 
 ## 📂 Estructura del repositorio
-data/           # CSV original (raw), limpio y dataset para modelado
-sql/            # Scripts SQL: schema, cleaning, views, exploratory analysis
-notebooks/      # Python notebooks con el modelo logit simple
-dashboard/      # Dashboard Power BI (.pbix)
-outputs/        # CSV: deciles, PD scores y agregados
-docs/           # Scope of Work, capturas del dashboard y diccionario
-README.md       # Documentación principal del proyecto
-requirements.txt    # Dependencias de Python
-LICENSE         # MIT license
+```
+data/                # CSV original (raw), limpio y dataset para modelado
+sql/                 # Scripts SQL: schema, cleaning, views, exploratory analysis
+notebooks/           # Python notebooks con el modelo logit simple
+dashboard/           # Dashboard Power BI (.pbix)
+outputs/             # CSV: deciles, PD scores y agregados
+docs/                # Scope of Work, capturas del dashboard y diccionario
+README.md            # Documentación principal del proyecto
+requirements.txt     # Dependencias de Python
+LICENSE              # MIT license
+```
 
 ---
 
