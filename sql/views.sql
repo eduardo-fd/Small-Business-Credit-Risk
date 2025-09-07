@@ -1,16 +1,16 @@
 -- VIEW LIST
 
--- Creamos vistas con las siguientes métricas:
+-- Create views with the following metrics:
 
-	  		-- approved_cnt: Número de préstamos aprovados
-			-- default_cnt: Número de incumplimientos (Default)
-			-- default_rate: Tasa de incumplimiento observado (odr)
-			-- chargeoff_sum: Saldo cancelado (irrecuperable)
-			-- avg_amount: Promedio de la cantidad prestada
-			
-	  -- Segmentadas por:
+        -- approved_cnt: Number of approved loans
+        -- default_cnt: Number of defaults
+        -- default_rate: Observed default rate (odr)
+        -- chargeoff_sum: Charged-off balance (unrecoverable)
+        -- avg_amount: Average loan amount
+        
+-- Segmented by:
 
-	  -- Mes
+	  -- Month
 CREATE VIEW agg_m AS
 WITH aggregation AS (	SELECT	approval_ym,
 						COUNT(*) AS approved_cnt, SUM(default_flag) AS default_cnt,
@@ -21,7 +21,7 @@ SELECT	approval_ym, approved_cnt, default_cnt, CAST(default_cnt AS FLOAT)/CAST(a
 		chargeoff_sum, avg_amount
 FROM aggregation;
 
-	  -- Mes, Estado
+	  -- Month, State
 CREATE VIEW agg_m_state AS
 WITH aggregation AS (	SELECT	approval_ym, project_state,
 						COUNT(*) AS approved_cnt, SUM(default_flag) AS default_cnt,
@@ -33,7 +33,7 @@ SELECT	approval_ym, project_state, approved_cnt, default_cnt,
 		chargeoff_sum, avg_amount
 FROM aggregation;
 
-	  -- Mes, NAICS
+	  -- Month, NAICS
 CREATE VIEW agg_m_naics AS
 WITH aggregation AS (	SELECT	approval_ym, naics_code_2,
 						COUNT(*) AS approved_cnt, SUM(default_flag) AS default_cnt,
@@ -45,7 +45,7 @@ SELECT	approval_ym, naics_code_2, approved_cnt, default_cnt,
 		chargeoff_sum, avg_amount
 FROM aggregation;
 
-	  -- Mes, Monto de prestamo
+	  -- Month, Loan amount
 CREATE VIEW agg_m_size AS
 WITH aggregation AS (	SELECT	approval_ym, size_bucket,
 						COUNT(*) AS approved_cnt, SUM(default_flag) AS default_cnt,
@@ -57,7 +57,7 @@ SELECT	approval_ym, size_bucket, approved_cnt, default_cnt,
 		chargeoff_sum, avg_amount
 FROM aggregation;
 
-	  -- Mes, Método de transmisión
+	  -- Month, Transmition method
 CREATE VIEW agg_m_process AS
 WITH aggregation AS (	SELECT	approval_ym, processing_bucket,
 						COUNT(*) AS approved_cnt, SUM(default_flag) AS default_cnt,
@@ -69,14 +69,14 @@ SELECT	approval_ym, processing_bucket, approved_cnt, default_cnt,
 		chargeoff_sum, avg_amount
 FROM aggregation;
 
--- Creamos el dataset para el modelo de predicción de impago
+-- Create the dataset for the default prediction model
 CREATE VIEW modeling_loans AS
 SELECT loan_id, default_flag, gross_approval, term_in_months, naics_code_2, project_state, size_bucket, processing_bucket
 FROM fact_loans;
 
-SELECT * FROM modeling_loans; -- Una vez creado lo exportamos en formato CSV para el EDA y modelado en python
+SELECT * FROM modeling_loans; -- Once created, export it in CSV format for EDA and modeling in Python
 
--- Exportamos también las vistas creadas
+-- Export the created views as well
 SELECT * FROM agg_m;
 SELECT * FROM agg_m_state;
 SELECT * FROM agg_m_naics;
