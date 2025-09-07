@@ -49,7 +49,7 @@ Con base en ese ranking (deciles), definiremos un umbral de acción (cut-off) pa
 
 ## 🔄 Metodología (Case Study Roadmap)
 
-### 1. Ask PENDIENTE
+### 1. Ask
 Se definió como objetivo central analizar el **riesgo crediticio** en los préstamos SBA 7(a).
 
 Preguntas clave de estudio: 
@@ -79,19 +79,14 @@ Se documentaron validaciones y problemas iniciales de formato en campos de fecha
 A continuación se definen 2 vías para continuar con el estudio:
 
 1. **Via rápida**: Ejecutar *esquema final* y *cargar datos limpios*
-📂 /data/ →
-    - `fact_loans.csv`
-📂 /sql/ →
-    - `fact_loans_schema.sql`
-    - `views.sql` (crear vistas)
+
+📂 /data/ → `fact_loans.csv`
+📂 /sql/ → `fact_loans_schema.sql`, `views.sql` (crear vistas)
 
 2. **Paso a paso**: Ejecutar *esquema inicial* y *cargar datos sucios* (limpieza de datos documentado en **Process**)
-📂 /data/ →
-     - `sba_loans_raw.csv` (no incluido por tamaño) disponible en SBA Open Data Portal
-📂 /sql/ →
-    - `sba_loans_schema.sql`
-    - `cleaning_data.sql` (limpieza de datos)
-    - `views.sql` (crear vistas)
+
+📂 /data/ → `sba_loans_raw.csv` (no incluido por tamaño) disponible en SBA Open Data Portal
+📂 /sql/ → `sba_loans_schema.sql`, `cleaning_data.sql` (limpieza de datos), `views.sql` (crear vistas)
 
 ---
 
@@ -168,9 +163,13 @@ Se realizó EDA tanto en SQL como en Python (histogramas y checklist final) de l
 - Alta tasa de impago en los programas de "COMMUNITY ADVANTAGE" (mayor riesgo asumido).
 
 #### 4.2 Modelo logístico (PD)
-Se creó un modelo que predice cual es la probabilidad de default (PD), utilizando la variable binaria dependiente 'default_flag' junto con las variables regresoras conocidas justo en el momento de originar el préstamo (antes de default): gross_approbal, term_in_months, naics_code_2, project_state, size_bucket, processing_bucket. Para el entrenamiento de el modelo se estableció class_weight='balanced' para ponderar los préstamos y se dividió el dataset en un 80% entrenamiento y un 20% test. Se evaluaron los resultados con AUS y KS, de los cuales se obtuvieron valores muy favorables que indicarón una capacidad predictiva robusta (AUC=0.865, KS=0.632).
+Se creó un modelo que predice cual es la probabilidad de default (PD), utilizando la variable binaria dependiente 'default_flag' junto con las variables regresoras conocidas justo en el momento de originar el préstamo (antes de default): gross_approbal, term_in_months, naics_code_2, project_state, size_bucket, processing_bucket. 
 
-Finalmente se calculó un pd_score (probabilidad de default) para cada préstamo `pd_scores.csv`, se ordenaron los préstamos por PD y se dividieron en 10 grupos (deciles) `decile_summary.csv`. En cada decil se midió: el número de préstamos, número de defaults, tasa de default (ODR), % acumulado de defaults y volumen. Los deciles superiores concentran la mayoría de los defaults en una fracción reducida del volumen, lo que permitirá a un banco enfocar la gestión de riesgo en los segmentos más expuestos con un coste reducido.
+Para el entrenamiento de el modelo se estableció class_weight='balanced' para ponderar los préstamos y se dividió el dataset en un 80% entrenamiento y un 20% test. Se evaluaron los resultados con AUS y KS, de los cuales se obtuvieron valores muy favorables que indicarón una capacidad predictiva robusta (AUC=0.865, KS=0.632).
+
+Finalmente se calculó un pd_score (probabilidad de default) para cada préstamo `pd_scores.csv`, se ordenaron los préstamos por PD y se dividieron en 10 grupos (deciles) `decile_summary.csv`. En cada decil se midió: el número de préstamos, número de defaults, tasa de default (ODR), % acumulado de defaults y volumen. 
+
+Los deciles superiores concentran la mayoría de los defaults en una fracción reducida del volumen, lo que permitirá a un banco enfocar la gestión de riesgo en los segmentos más expuestos con un coste reducido.
 
 ---
 
