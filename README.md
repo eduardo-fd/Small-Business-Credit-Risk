@@ -79,16 +79,16 @@ Se documentaron validaciones y problemas iniciales de formato en campos de fecha
 A continuación se definen 2 vías para continuar con el estudio:
 
 1. **Via rápida**: Ejecutar *esquema final* y *cargar datos limpios*
-    📂 /data/ →
+📂 /data/ →
     - `fact_loans.csv`
-    📂 /sql/ →
+📂 /sql/ →
     - `fact_loans_schema.sql`
     - `views.sql` (crear vistas)
 
 2. **Paso a paso**: Ejecutar *esquema inicial* y *cargar datos sucios* (limpieza de datos documentado en **Process**)
-    📂 /data/ →
+📂 /data/ →
      - `sba_loans_raw.csv` (no incluido por tamaño) disponible en SBA Open Data Portal
-    📂 /sql/ →
+📂 /sql/ →
     - `sba_loans_schema.sql`
     - `cleaning_data.sql` (limpieza de datos)
     - `views.sql` (crear vistas)
