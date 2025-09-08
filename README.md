@@ -231,12 +231,10 @@ Adopt an operational cut-off at decile ≥9, complemented with:
 
 ### Limitations
 - Temporal censoring (future defaults not yet observed).  
-- PD not calibrated to regulatory horizon.  
-- LGD and EAD not included → model estimates default risk, not expected loss.  
+- Model estimates default risk, not expected loss.  
 
 ### Next Steps
-- Calibrate PD to a one-year horizon.  
-- Integrate LGD and EAD to estimate Expected Loss (EL = PD×LGD×EAD).  
+- Integrate LGD and EAD to estimate Expected Loss. 
 - Stress testing with macroeconomic scenarios.  
 
 
