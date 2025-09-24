@@ -1,6 +1,6 @@
 .DS_Store
 data/sba_loans_raw.csv
-venv/
+.venv/
 .env/
 __pycache__/
 *.pyc
