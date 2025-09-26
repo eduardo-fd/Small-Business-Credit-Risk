@@ -14,19 +14,19 @@ The goal was to build an **end-to-end** (E2E) pipeline covering everything from 
 
 The public 7(a) & 504 FOIA database, published by the U.S. Small Business Administration (SBA), a federal agency of the United States, is a dataset that contains historical and current records of loans granted under the 7(a) and 504 programs. This data is published in compliance with the Freedom of Information Act (FOIA).
 
-This study explores the most recent data from the 2020–2025 period. The dataset is provided in CSV tabular format, where each row corresponds to a loan approved under the SBA 7(a) program, which is the general program for SMEs. The columns contain information about the borrower, financial institution, approval amounts, interest terms, loan status, and key dates (approval, first disbursement, full repayment, charge-off). The dictionary is recommended for further details.
+This study explores the most recent data from the 2020–2025 period. The dataset is provided in CSV tabular format, where each row corresponds to a loan approved under the SBA 7(a) program, which is the general program for Small and Medium-sized Enterprises. The columns contain information about the borrower, financial institution, approval amounts, interest terms, loan status, and key dates (approval, first disbursement, full repayment, charge-off). The dictionary is recommended for further details.
 
 ---
 
 ## 🎯 Project Objective
-The objective of this project is to investigate credit risk in SBA 7(a) loans (U.S., 2020–2025) in order to improve origination decisions. We identify higher-risk segments by industry (NAICS), geography (State), loan size, and program type, and build a simple, interpretable logistic model (PD) that ranks applicants by probability of default.
+The objective of this project is to investigate credit risk in SBA 7(a) loans (U.S., 2020–2025) in order to improve origination decisions. The analysis identifies higher-risk segments by industry (NAICS), geography (State), loan size, and program type, and builds a simple, interpretable logistic model (PD) that ranks applicants by probability of default.
 
-Based on that ranking (deciles), we define an action threshold (cut-off) to prioritize review/limit adjustments and estimate the expected impact on charge-off. The results are communicated through a dashboard with KPIs by cohorts/vintages, maps, segment tables, and an executive memo with actionable recommendations.
+Based on the ranked loans by PD (deciles), an action threshold (cut-off) is defined to prioritize review/limit adjustments and estimate the expected impact on charge-off. The results are communicated through a dashboard with KPIs by cohorts/vintages, maps, segment tables, and an executive memo with actionable recommendations.
 
 ---
 
 ## 🛠️ Tools Used
-- **Excel**: Dictionary, initial exploration, and mapping.
+- **Excel**: Dictionary, initial exploration (Power Query), and mapping.
 - **PostgreSQL**: Import, cleaning, transformation/metric creation, aggregation queries, feature engineering, and exploratory data analysis.
 - **Python**: Simple logistic model to estimate PD (Probability of Default).  
 - **Power BI**: Interactive visualization of metrics and insights.
@@ -57,13 +57,12 @@ Key research questions:
 - Which factors have the strongest influence on the probability of default?
 - Are there differences in default rates by state, industry, loan size, or program type?
 - How do defaults evolve over time?
-- What conclusions and recommendations can we extract from this analysis?
+- How can we decrease credit risk without sacrificing to much volume?
 
 ---
 
 ### 2. Prepare
-In the preparation phase, the data was downloaded from the official SBA portal and the reliability of the source was verified (meets ROCCC criteria).  
-The data was then stored in PostgreSQL to ensure integrity and consistency. For this, the **Small-Business Credit Risk** database was created together with the initial **sba_loans** table.
+In the preparation phase, the data was downloaded from the official SBA portal and the reliability of the source was verified (meets ROCCC criteria). The data was then stored and loaded in to the RDBMS PostgreSQL. Inside, the **Small-Business Credit Risk** database was created together with the initial **sba_loans** table.
 
 Import format used:
 - Format: CSV
@@ -77,7 +76,7 @@ Validations and initial formatting issues were documented for date fields and mi
 - Detection of empty values ('') and duplicates.
 - Conversion of variables to appropriate types: NUMERIC(10,2) for amounts, DATE for dates, SMALLINT for terms, etc.
 
-Two paths were defined for continuing the study:
+Two paths are defined for continuing the study:
 
 1. **Fast track**: Run *final schema* and *load clean data*
 
