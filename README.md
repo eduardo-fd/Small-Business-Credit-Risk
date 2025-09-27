@@ -152,14 +152,32 @@ resources:
 #### 4.1 Exploratory Data Analysis
 An EDA was performed in SQL and Python (histograms and validation), from which the following insights were extracted:
 
+About the data:
 - Imbalanced dataset (expected), with ~1.1% of loans in default.
-- Loan amount distribution heavily skewed toward lower amounts (few large/multi-million loans). 
+- Loan amount distribution heavily skewed toward lower amounts (few large/multi-million loans).
+- Latest temporal window from 2020-2025.
 
-- Highest default rate in the Transportation and Warehousing sector.   
-- Negative correlation between loan amount and probability of default.  
-- States with higher default rates: Nevada, Los Angeles, and Florida.  
-- Negative correlation between loan term and default rate. However, this hypothesis was discarded due to the short window observed (2020–2025), and since longer terms may not have matured.  
-- High default rate in "COMMUNITY ADVANTAGE" programs (higher assumed risk).  
+Origination:
+To identify segments with abnormal default rates, we established a 20% lift threshold relative to the portfolio’s average default rate and applied it across cohorts/segments, subject to a minimum sample size.
+
+- Highest default rate in the Transportation-Warehousing (48-49) and Utilities (22) sector.
+- Negative correlation between loan term and default rate. However, it has to be taken into account the short window observed (2020–2025), longer terms may not have matured.  
+- Negative correlation between loan amount and probability of default. Highest default rate on loans below 50k followed by loans between 50-150k bucket.
+- Very high default rate in "COMMUNITY ADVANTAGE" programs (higher assumed risk), with an observed default rate of ~4.9%. Also, "EXPRESS" programs tend to have an above average default rate + 20% lift, and should be taken also into account at origination.
+
+- States that showed a default rate above average with a 20% lift are:
+	- NV → Nevada
+	- LA → Louisiana
+	- FL → Florida
+	- NY → New York
+	- HI → Hawaii
+	- CA → California
+	- IL → Illinois
+	- SD → South Dakota
+	- NJ → New Jersey
+	- AZ → Arizona
+
+Note: Findings are descriptive (not causal) and used for monitoring/policy tuning; operational actions are driven by individual PD/deciles, not by segment membership.
 
 #### 4.2 Logistic Model (PD)
 A model was built to predict the probability of default (PD), using the binary dependent variable `default_flag` together with regressors known at the time of loan origination (before default): gross_approval, term_in_months, naics_code_2, project_state, size_bucket, processing_bucket.
