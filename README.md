@@ -21,7 +21,7 @@ This study explores the most recent data from the 2020–2025 period. The datase
 ## 🎯 Project Objective
 The objective of this project is to investigate credit risk in SBA 7(a) loans (U.S., 2020–2025) in order to improve origination decisions. The analysis identifies higher-risk segments by industry (NAICS), geography (State), loan size, and program type, and builds a simple, interpretable logistic model (PD) that ranks applicants by probability of default.
 
-Based on the ranked loans by PD (deciles), an action threshold (cut-off) is defined to prioritize review/limit adjustments and estimate the expected impact on charge-off. The results are communicated through a dashboard with KPIs by cohorts/vintages, maps, segment tables, and an executive memo with actionable recommendations.
+Based on the ranked loans by PD (deciles), an action threshold (cut-off) is defined to prioritize review/limit adjustments. The results are communicated through a dashboard with KPIs by cohorts/vintages, maps, segment tables, and an executive memo with actionable recommendations.
 
 ---
 
@@ -54,10 +54,10 @@ LICENSE              # MIT license
 The main goal was defined as analyzing **credit risk** in SBA 7(a) loans.
 
 Key research questions: 
-- Which factors have the strongest influence on the probability of default?
+- What approval/review rule should we use to reduce bad loans without losing too much volume?
+- Which loans are we analyzing (SBA 7(a), 2020–2025) and over what time window are we judging risk?
 - Are there differences in default rates by state, industry, loan size, or program type?
-- How do defaults evolve over time?
-- How can we decrease credit risk without sacrificing to much volume?
+- How can we improve origination and monitorization of loans?
 
 ---
 
@@ -191,11 +191,11 @@ The top deciles concentrate most defaults in a small fraction of the volume, ena
 ---
 
 ### 5. Share
-To effectively communicate the results, an interactive Power BI dashboard was designed with three main pages, targeted at different business audiences.
+To effectively communicate the results, an interactive Power BI dashboard was designed with three main pages.
 
 resources:  
 📂 /dashboard/ → `dashboard.pbix`  
-📂 /docs/ → `executive_dashboard.PNG`, `risk_dashboard.PNG`, `cohorts_dashboard.PNG`
+📂 /docs/ → `executive_overview.PNG`, `risk_overview.PNG`, `cohorts_overview.PNG`
 
 ### A) Executive Overview
 ![Executive Overview](/docs/executive_overview.PNG)
@@ -208,50 +208,66 @@ resources:
 ![Risk Model](/docs/risk_overview.PNG)
 
 - Objective: show the performance of the trained logistic model.  
-- Content: decile table, default rate by decile, cumulative capture curve, AUC and KS metrics, map with average PD by state.  
+- Content: decile table, default rate by decile, cumulative capture curve, AUC and KS metrics, trade-off defaults vs volume.
 - Key insight: deciles 9–10 capture ~81% of defaults with only ~20% of the volume, allowing for an efficient operational cut-off.  
 
 ### C) Cohorts / Vintages
 ![Cohorts](/docs/cohorts_overview.PNG)
 
 - Objective: analyze risk trends by origination cohorts.  
-- Content: ODR evolution by approval month/year (optional State and Industry), broken down by loan size and program type.  
-- Key insight: performance differences are observed across loan generations depending on program type and total loan amount.  
+- Content: ODR/Approved Loans/Charge-off Amount evolution segmented by State-Industry, and broken down by loan size and program type.  
+- Key insight: performance differences are observed across different segmentations.
 
 ---
 
 ### 6. Act
 
 ### Objective
-Reduce charge-off losses without significantly sacrificing the volume of approved loans.
+Reduce charge-off losses without significantly sacrificing the volume of approved loans and improve loan origination.
 
 ### What we did
-- Full ETL and data cleaning (SBA FOIA, snapshot 2025-06-30).  
+- Full ETL and data cleaning.
 - Created metrics and KPIs by cohorts, industries, and states.  
-- Built a logistic probability of default (PD) model, segmented into deciles.  
+- Built a logistic probability of default (PD) model, segmented into deciles.
+- Built interactive dashboard with multiple views for executive data-driven decisions.   
 
 ### Key Results
+- Implemented descriptive analysis to find patterns and improve origination.
 - AUC=0.865, KS=0.632 → robust model, strong discrimination power.  
 - Cut-off decile ≥9 → captures ~81% of defaults with only ~20% of the volume.  
-- Cut-off decile ≥8 → captures ~90% of defaults with ~30% of the volume.  
+- Cut-off decile ≥8 → captures ~90% of defaults with ~30% of the volume, higher cost but a fair trade-off.
 
 ### Observed Patterns
-- Higher risk in Community Advantage programs.  
-- Transportation and Warehousing sector with elevated ODR.  
-- Nevada with above-average default incidence.  
+- Negative correlation between loan term and default rate. However, it has to be taken into account the short window observed (2020–2025).
+- Negative correlation between loan amount and probability of default.
+- Above-average observed default rate on loans below 150k.
+- Above-average observed default rate in the Transportation-Warehousing (48-49 NAICS code) and Utilities (22 NAICS code) sector.
+- Above-average observed default rate in the following States: Nevada, Louisiana, Florida, New York, Hawaii, California, Illinois, South Dakota, New Jersey and Arizona.
+- High risk in Community Advantage (~4.9% observed default rate) and Express programs.
 
 ### Recommendation
 Adopt an operational cut-off at decile ≥9, complemented with:  
 - Manual review of loans in ≥9.  
-- Stricter amount/tenor limits for ≥9.  
+- Stricter amount/tenor limits for ≥9.
+
+Monitor loans with the following origination characteristics:
+- Loans below 150k.
+- Loans in the Transportation-Warehousing and Utilities sector.
+- Loans from the following States: Nevada, Louisiana, Florida, New York, Hawaii, California, Illinois, South Dakota, New Jersey and Arizona.
+- Loans in Community Advantage and Express programs.
+
+Use segment flags for monitoring/policy tuning; actions are triggered by individual PD/deciles, not by segment alone.
 
 ### Limitations
-- Temporal censoring (future defaults not yet observed).  
-- Model estimates default risk, not expected loss.  
-
+- Temporal censoring (future defaults not yet observed).
+- Model estimates default risk, not expected loss.
+- Status of loans not in the dataset to determinate active portfolio for decision making.  
+- Descriptive analysis not causal.
+  
 ### Next Steps
 - Integrate LGD and EAD to estimate Expected Loss. 
-- Stress testing with macroeconomic scenarios.  
+- Stress testing with macroeconomic scenarios.
+- Identify Causality to improve origination.
 
 
 ## 🚀 How to Reproduce the Project
