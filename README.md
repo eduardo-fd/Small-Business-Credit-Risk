@@ -14,19 +14,19 @@ The goal was to build an **end-to-end** (E2E) pipeline covering everything from 
 
 The public 7(a) & 504 FOIA database, published by the U.S. Small Business Administration (SBA), a federal agency of the United States, is a dataset that contains historical and current records of loans granted under the 7(a) and 504 programs. This data is published in compliance with the Freedom of Information Act (FOIA).
 
-This study explores the most recent data from the 2020–2025 period. The dataset is provided in CSV tabular format, where each row corresponds to a loan approved under the SBA 7(a) program, which is the general program for SMEs. The columns contain information about the borrower, financial institution, approval amounts, interest terms, loan status, and key dates (approval, first disbursement, full repayment, charge-off). The dictionary is recommended for further details.
+This study explores the most recent data from the 2020–2025 period. The dataset is provided in CSV tabular format, where each row corresponds to a loan approved under the SBA 7(a) program, which is the general program for Small and Medium-sized Enterprises. The columns contain information about the borrower, financial institution, approval amounts, interest terms, loan status, and key dates (approval, first disbursement, full repayment, charge-off). The dictionary is recommended for further details.
 
 ---
 
 ## 🎯 Project Objective
-The objective of this project is to investigate credit risk in SBA 7(a) loans (U.S., 2020–2025) in order to improve origination decisions. We identify higher-risk segments by industry (NAICS), geography (State), loan size, and program type, and build a simple, interpretable logistic model (PD) that ranks applicants by probability of default.
+The objective of this project is to investigate credit risk in SBA 7(a) loans (U.S., 2020–2025) in order to improve origination decisions. The analysis identifies higher-risk segments by industry (NAICS), geography (State), loan size, and program type, and builds a simple, interpretable logistic model (PD) that ranks applicants by probability of default.
 
-Based on that ranking (deciles), we define an action threshold (cut-off) to prioritize review/limit adjustments and estimate the expected impact on charge-off. The results are communicated through a dashboard with KPIs by cohorts/vintages, maps, segment tables, and an executive memo with actionable recommendations.
+Based on the ranked loans by PD (deciles), an action threshold (cut-off) is defined to prioritize review/limit adjustments and estimate the expected impact on charge-off. The results are communicated through a dashboard with KPIs by cohorts/vintages, maps, segment tables, and an executive memo with actionable recommendations.
 
 ---
 
 ## 🛠️ Tools Used
-- **Excel**: Dictionary, initial exploration, and mapping.
+- **Excel**: Dictionary, initial exploration (Power Query), and mapping.
 - **PostgreSQL**: Import, cleaning, transformation/metric creation, aggregation queries, feature engineering, and exploratory data analysis.
 - **Python**: Simple logistic model to estimate PD (Probability of Default).  
 - **Power BI**: Interactive visualization of metrics and insights.
@@ -57,13 +57,12 @@ Key research questions:
 - Which factors have the strongest influence on the probability of default?
 - Are there differences in default rates by state, industry, loan size, or program type?
 - How do defaults evolve over time?
-- What conclusions and recommendations can we extract from this analysis?
+- How can we decrease credit risk without sacrificing to much volume?
 
 ---
 
 ### 2. Prepare
-In the preparation phase, the data was downloaded from the official SBA portal and the reliability of the source was verified (meets ROCCC criteria).  
-The data was then stored in PostgreSQL to ensure integrity and consistency. For this, the **Small-Business Credit Risk** database was created together with the initial **sba_loans** table.
+In the preparation phase, the data was downloaded from the official SBA portal and the reliability of the source was verified (meets ROCCC criteria). The data was then stored and loaded in to the RDBMS PostgreSQL. Inside, the **Small-Business Credit Risk** database was created together with the initial **sba_loans** table.
 
 Import format used:
 - Format: CSV
@@ -77,14 +76,14 @@ Validations and initial formatting issues were documented for date fields and mi
 - Detection of empty values ('') and duplicates.
 - Conversion of variables to appropriate types: NUMERIC(10,2) for amounts, DATE for dates, SMALLINT for terms, etc.
 
-Two paths were defined for continuing the study:
+Two paths are defined for continuing the study:
 
 1. **Fast track**: Run *final schema* and *load clean data*
 
 📂 /data/ → `fact_loans.csv`  
 📂 /sql/ → `fact_loans_schema.sql`, `views.sql` (create views)
 
-2. **Step by step**: Run *initial schema* and *load raw data* (data cleaning documented in **Process**)
+2. **Step by step**: Run *initial schema*, *load raw data* and follow the steps (data cleaning documented in **Process**)
 
 📂 /data/ → `sba_loans_raw.csv` (not included due to size) available in SBA Open Data Portal  
 📂 /sql/ → `sba_loans_schema.sql`, `cleaning_data.sql` (data cleaning), `views.sql` (create views)
@@ -93,8 +92,8 @@ Two paths were defined for continuing the study:
 
 ### 3. Process
 In the processing phase, the data was loaded and minor issues documented during the initial import were corrected.
-- Empty or inconsistent date formats (""): Temporarily set affected columns to TEXT.
-- Decimal values in columns conceptually meant to be integers: Temporarily set affected column to FLOAT.
+- Empty or inconsistent date formats (""): Temporarily set affected columns to type TEXT.
+- Decimal values in columns conceptually meant to be integers: Temporarily set affected column to type FLOAT.
 
 resources:  
 📂 /sql/ → `cleaning_data.sql`, `views.sql`
@@ -108,14 +107,14 @@ Data cleaning and initial checks were performed:
 - Performed some additional checks to ensure integrity.
 
 #### 3.2 Feature Engineering
-Created useful columns for the analysis:
+Created the following columns for analysis:
 
 - Created and set a unique identifier `loan_id`.  
 - Created `approval_ym` and `approval_m` (year-month and month of approval).  
 - Derived `naics_code_2` (2-digit industry code).  
 - Created `size_bucket` (approved amount ranges).  
 - Created `default_flag` (binary default indicator).  
-- Created `processing_code` and `processing_bucket` (categorization of processing methods).  
+- Created `processing_code` and then `processing_bucket` (categorization of processing methods).  
 - Removed unnecessary/irrelevant columns for the study.
 
 #### 3.3 Fact Table
@@ -141,27 +140,44 @@ Defined SQL views for aggregated analysis:
 - `agg_m_process`: metrics by month and processing method  
 - `modeling_loans`: filtered data for predictive PD modeling  
 
-Finally, all views were exported in CSV format.
-
 ---
 
 ### 4. Analyze
-Once the ETL and data processing phases were completed, an exploratory analysis was conducted to identify patterns and extract actionable insights. A logistic model was then created to predict the probability of default (PD) for each loan.
+With ETL phases completed, an exploratory analysis was conducted to identify patterns and extract actionable insights. Then, a logistic model was built to predict the probability of default (PD) for each loan and binned into deciles for further analysis.
 
 resources:  
 📂 /sql/ → `eda_modeling.sql`  
 📂 /notebooks/ → `pd_modeling.ipynb`
 
 #### 4.1 Exploratory Data Analysis
-EDA was performed in both SQL and Python (histograms and final checklist), from which the following insights were extracted:
+An EDA was performed in SQL and Python (histograms and validation), from which the following insights were extracted:
 
-- Imbalanced dataset, with ~1.1% of loans in default.  
-- Highest default rate in the Transportation and Warehousing sector.  
-- Loan amount distribution heavily skewed toward lower values (few large/multi-million loans).  
-- Negative correlation between loan amount and probability of default.  
-- States with higher default rates: Nevada, Los Angeles, and Florida.  
-- Negative correlation between loan term and default rate. However, this hypothesis was discarded due to the short window observed (2020–2025), since longer terms may not have matured.  
-- High default rate in "COMMUNITY ADVANTAGE" programs (higher assumed risk).  
+About the data:
+- Imbalanced dataset (expected), with ~1.1% of loans in default.
+- Loan amount distribution heavily skewed toward lower amounts (few large/multi-million loans).
+- Latest temporal window from 2020-2025.
+
+Origination:
+To identify segments with abnormal default rates, we established a 20% lift threshold relative to the portfolio’s average default rate and applied it across cohorts/segments, subject to a minimum sample size.
+
+- Highest default rate in the Transportation-Warehousing (48-49) and Utilities (22) sector.
+- Negative correlation between loan term and default rate. However, it has to be taken into account the short window observed (2020–2025), longer terms may not have matured.  
+- Negative correlation between loan amount and probability of default. Highest default rate on loans below 50k followed by loans between 50-150k bucket.
+- Very high default rate in "COMMUNITY ADVANTAGE" programs (higher assumed risk), with an observed default rate of ~4.9%. Also, "EXPRESS" programs tend to have an above average default rate + 20% lift, and should be taken also into account at origination.
+
+- States that showed a default rate above average with a 20% lift are:
+	- NV → Nevada
+	- LA → Louisiana
+	- FL → Florida
+	- NY → New York
+	- HI → Hawaii
+	- CA → California
+	- IL → Illinois
+	- SD → South Dakota
+	- NJ → New Jersey
+	- AZ → Arizona
+
+Note: Findings are descriptive (not causal) and used for monitoring/policy tuning; operational actions are driven by individual PD/deciles, not by segment membership.
 
 #### 4.2 Logistic Model (PD)
 A model was built to predict the probability of default (PD), using the binary dependent variable `default_flag` together with regressors known at the time of loan origination (before default): gross_approval, term_in_months, naics_code_2, project_state, size_bucket, processing_bucket.
