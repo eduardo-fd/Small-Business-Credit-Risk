@@ -276,7 +276,7 @@ Use segment flags for monitoring/policy tuning; actions are triggered by individ
 To clone and run the project locally:
 
 ```bash
-git clone https://github.com/your-username/Small-Business-Credit-Risk.git
+git clone https://github.com/eduardo-fd/Small-Business-Credit-Risk.git
 cd Small-Business-Credit-Risk
 
 # Create virtual environment
