@@ -4,6 +4,8 @@
 This project analyzed the performance and credit risk of loans guaranteed by the **U.S. Small Business Administration (SBA)**, specifically under the **7(a)** program.  
 The goal was to build an **end-to-end** (E2E) pipeline covering everything from data preparation and import to the creation of aggregated views and a fact table ready for analysis and visualization.
 
+![Demo](/dashboard/demo.GIF)
+
 ---
 
 ## 📊 Data Source
