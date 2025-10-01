@@ -1,8 +1,9 @@
 # Small Business Credit Risk – SBA 7(a) Loans
 
-## 📌 Description
-This project analyzed the performance and credit risk of loans guaranteed by the **U.S. Small Business Administration (SBA)**, specifically under the **7(a)** program.  
-The goal was to build an **end-to-end** (E2E) pipeline covering everything from data preparation and import to the creation of aggregated views and a fact table ready for analysis and visualization.
+## 🎯 Project Objective
+The objective of this project is to investigate credit risk in SBA 7(a) loans (U.S., 2020–2025) in order to improve origination decisions. The analysis identifies higher-risk segments by industry (NAICS), geography (State), loan size, and program type, and builds a simple, interpretable logistic model (PD) that ranks applicants by probability of default.
+
+Based on the ranked loans by PD (deciles), an action threshold (cut-off) is defined to prioritize review/limit adjustments. The results are communicated through a dashboard with KPIs by cohorts/vintages, maps, segment tables, and an executive memo with actionable recommendations.
 
 ![Demo](/dashboard/demo.gif)
 
@@ -17,13 +18,6 @@ The goal was to build an **end-to-end** (E2E) pipeline covering everything from 
 The public 7(a) & 504 FOIA database, published by the U.S. Small Business Administration (SBA), a federal agency of the United States, is a dataset that contains historical and current records of loans granted under the 7(a) and 504 programs. This data is published in compliance with the Freedom of Information Act (FOIA).
 
 This study explores the most recent data from the 2020–2025 period. The dataset is provided in CSV tabular format, where each row corresponds to a loan approved under the SBA 7(a) program, which is the general program for Small and Medium-sized Enterprises. The columns contain information about the borrower, financial institution, approval amounts, interest terms, loan status, and key dates (approval, first disbursement, full repayment, charge-off). The dictionary is recommended for further details.
-
----
-
-## 🎯 Project Objective
-The objective of this project is to investigate credit risk in SBA 7(a) loans (U.S., 2020–2025) in order to improve origination decisions. The analysis identifies higher-risk segments by industry (NAICS), geography (State), loan size, and program type, and builds a simple, interpretable logistic model (PD) that ranks applicants by probability of default.
-
-Based on the ranked loans by PD (deciles), an action threshold (cut-off) is defined to prioritize review/limit adjustments. The results are communicated through a dashboard with KPIs by cohorts/vintages, maps, segment tables, and an executive memo with actionable recommendations.
 
 ---
 
