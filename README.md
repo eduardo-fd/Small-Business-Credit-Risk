@@ -36,7 +36,7 @@ sql/                 # Scripts SQL: schema, cleaning, views, exploratory analysi
 notebooks/           # Python notebooks with the simple logit model
 dashboard/           # Dashboard Power BI (.pbix)
 outputs/             # CSV: deciles, PD scores and aggregates
-docs/                # Scope of Work, dashboard screenshots, dictionary, README.md (Spanish)
+docs/                # Scope of Work, dashboard screenshots, dictionary
 README.md            # Main project documentation
 requirements.txt     # Python dependencies
 LICENSE              # MIT license
@@ -194,21 +194,21 @@ resources:
 📂 /docs/ → `executive_overview.PNG`, `risk_overview.PNG`, `cohorts_overview.PNG`
 
 ### A) Executive Overview
-![Executive Overview](/docs/executive_overview.PNG)
+![Executive Overview](/dashboard/executive_overview.PNG)
 
 - Objective: provide a general overview of the SBA loan portfolio.  
 - Content: key metrics (approved, ODR, charge-off), time trends, distribution by state (map), NAICS sectors, loan size, and program type.  
 - Key insight: the average ODR is stable, but risk concentrations exist in certain states and industries.  
 
 ### B) Risk (PD Model)
-![Risk Model](/docs/risk_overview.PNG)
+![Risk Model](/dashboard/risk_overview.PNG)
 
 - Objective: show the performance of the trained logistic model.  
 - Content: decile table, default rate by decile, cumulative capture curve, AUC and KS metrics, trade-off defaults vs volume.
 - Key insight: deciles 9–10 capture ~81% of defaults with only ~20% of the volume, allowing for an efficient operational cut-off.  
 
 ### C) Cohorts / Vintages
-![Cohorts](/docs/cohorts_overview.PNG)
+![Cohorts](/dashboard/cohorts_overview.PNG)
 
 - Objective: analyze risk trends by origination cohorts.  
 - Content: ODR/Approved Loans/Charge-off Amount evolution segmented by State-Industry, and broken down by loan size and program type.  
