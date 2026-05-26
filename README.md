@@ -1,6 +1,6 @@
 # Small Business Credit Risk – SBA 7(a) Loans
 
-## 🎯 Project Objective
+## Project Objective
 The objective of this project is to investigate credit risk in SBA 7(a) loans (U.S., 2020–2025) in order to improve origination decisions. The analysis identifies higher-risk segments by industry (NAICS), geography (State), loan size, and program type, and builds a simple, interpretable logistic model (PD) that ranks applicants by probability of default.
 
 Based on the ranked loans by PD (deciles), an action threshold (cut-off) is defined to prioritize review/limit adjustments. The results are communicated through a dashboard with KPIs by cohorts/vintages, maps, segment tables, and an executive memo with actionable recommendations.
@@ -9,7 +9,7 @@ Based on the ranked loans by PD (deciles), an action threshold (cut-off) is defi
 
 ---
 
-## 📊 Data Source
+## Data Source
 - Source: [SBA Open Data Portal](https://data.sba.gov/en/dataset/7-a-504-foia)  
 - Dataset: *FOIA – 7(a) Loans (FY2020 – Present)*  
 - Official dictionary: available in the same source  
@@ -21,7 +21,7 @@ This study explores the most recent data from the 2020–2025 period. The datase
 
 ---
 
-## 🛠️ Tools Used
+## Tools Used
 - **Excel**: Dictionary, initial exploration (Power Query), and mapping.
 - **PostgreSQL**: Import, cleaning, transformation/metric creation, aggregation queries, feature engineering, and exploratory data analysis.
 - **Python**: Simple logistic model to estimate PD (Probability of Default).  
@@ -29,7 +29,7 @@ This study explores the most recent data from the 2020–2025 period. The datase
 
 ---
 
-## 📂 Repository Structure
+## Repository Structure
 ```
 data/                # Raw CSV, cleaned, and modeling dataset
 sql/                 # Scripts SQL: schema, cleaning, views, exploratory analysis
@@ -44,7 +44,7 @@ LICENSE              # MIT license
 
 ---
 
-## 🔄 Methodology (Case Study Roadmap)
+## Methodology (Case Study Roadmap)
 
 ### 1. Ask
 The main goal was defined as analyzing **credit risk** in SBA 7(a) loans.
@@ -267,7 +267,7 @@ Use segment flags for monitoring/policy tuning; actions are triggered by individ
 
 ---
 
-## 🚀 How to Reproduce the Project
+## How to Reproduce the Project
 To clone and run the project locally:
 
 ```bash
